@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TicketStore.Events;
+using TicketStore.Services;
 
 namespace TicketStore
 {
@@ -24,6 +25,7 @@ namespace TicketStore
 
             services.AddScoped<IMovieRatingProvider, MovieRatingProvider>();
             services.AddScoped<IEventProvider, EventProvider>();
+            services.AddSingleton<IEmailSenderService, EmailSenderService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
