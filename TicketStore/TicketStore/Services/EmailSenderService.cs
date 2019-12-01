@@ -1,25 +1,22 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace TicketStore.Services
 {
     public class EmailSenderService : IEmailSenderService
     {
-        private readonly ServiceConfiguration serviceConfiguration;
+        private readonly EmailConfiguration emailConfiguration;
         private readonly SmtpClient _client;
 
-        public EmailSenderService(IConfiguration configuration)
+        public EmailSenderService(ServiceConfiguration configuration)
         {
-            serviceConfiguration = new ServiceConfiguration();
-            configuration.Bind(serviceConfiguration);
-
-            _client = new SmtpClient(serviceConfiguration.Email.SmtpServerAddress, serviceConfiguration.Email.SmtpServerPort);
+            emailConfiguration = configuration.Email;
+            _client = new SmtpClient(emailConfiguration.SmtpServerAddress, emailConfiguration.SmtpServerPort);
         }
 
         public async Task SendEmail(string emailAddress, string content)
         {
-            var message = new MailMessage(serviceConfiguration.Email.SenderAddress, emailAddress)
+            var message = new MailMessage(emailConfiguration.SenderAddress, emailAddress)
             {
                 Subject = content
             };

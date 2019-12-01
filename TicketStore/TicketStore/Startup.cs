@@ -27,6 +27,11 @@ namespace TicketStore
             services.AddScoped<IEventProvider, EventProvider>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
 
+            // configuration
+            var serviceConfiguration = new ServiceConfiguration();
+            Configuration.Bind(serviceConfiguration);
+            services.AddSingleton(serviceConfiguration);
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
