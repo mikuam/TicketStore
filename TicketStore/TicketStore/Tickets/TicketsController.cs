@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using TicketStore.Services;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace TicketStore.Tickets
 {
@@ -12,11 +13,16 @@ namespace TicketStore.Tickets
     {
         private readonly IEventProvider _eventProvider;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly ILogger<TicketsController> _logger;
 
-        public TicketsController(IEmailSenderService emailSenderService, IEventProvider eventProvider)
+        public TicketsController(
+            IEmailSenderService emailSenderService,
+            IEventProvider eventProvider,
+            ILogger<TicketsController> logger)
         {
             _eventProvider = eventProvider;
             _emailSenderService = emailSenderService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,9 +32,9 @@ namespace TicketStore.Tickets
             {
                 return new JsonResult(_eventProvider.GetActiveEvents());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // logging
+                _logger.LogError(ex, $"Something went wrong when getting events in {nameof(GetAvailableEvents)}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -37,8 +43,16 @@ namespace TicketStore.Tickets
         [HttpPost]
         public async Task<IActionResult> BuyTicket(Ticket ticket)
         {
-            await _emailSenderService.SendEmail(ticket.Email, $"Bought ticket for {ticket.MovieTitle}!");
-            return StatusCode(StatusCodes.Status201Created);
+            try
+            {
+                await _emailSenderService.SendEmail(ticket.Email, $"Bought ticket for {ticket.MovieTitle}!");
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong when buying tickets in {nameof(BuyTicket)}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
