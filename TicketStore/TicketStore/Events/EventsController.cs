@@ -8,14 +8,19 @@ namespace TicketStore.Events
     [ApiController]
     public class EventsController : ControllerBase
     {
+        private readonly IEventProvider _eventProvider;
+
+        public EventsController(IEventProvider eventProvider)
+        {
+            _eventProvider = eventProvider;
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                var provider = new EventProvider();
-
-                return new JsonResult(provider.GetActiveEvents());
+                return new JsonResult(_eventProvider.GetActiveEvents());
             }
             catch (Exception)
             {

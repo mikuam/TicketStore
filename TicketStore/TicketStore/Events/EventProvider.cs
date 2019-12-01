@@ -4,8 +4,15 @@ using System.Linq;
 
 namespace TicketStore.Events
 {
-    public class EventProvider
+    public class EventProvider : IEventProvider
     {
+        private readonly IMovieRatingProvider _movieRatingProvider;
+
+        public EventProvider(IMovieRatingProvider movieRatingProvider)
+        {
+            _movieRatingProvider = movieRatingProvider;
+        }
+
         public IEnumerable<Event> GetActiveEvents()
         {
             var events =  GetAllEvents();
@@ -15,8 +22,7 @@ namespace TicketStore.Events
 
         private IEnumerable<Event> ApplyRatings(IEnumerable<Event> events)
         {
-            var ratingsProvider = new MovieRatingProvider();
-            var movieRatings = ratingsProvider.GetMovieRatings(
+            var movieRatings = _movieRatingProvider.GetMovieRatings(
                 events.Where(e => e.Type == EventType.Movie)
                       .Select(m => m.Title));
 

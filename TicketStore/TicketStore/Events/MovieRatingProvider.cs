@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TicketStore.Events
 {
-    public class MovieRatingProvider
+    public class MovieRatingProvider : IMovieRatingProvider
     {
         public IDictionary<string, decimal> GetMovieRatings(IEnumerable<string> movieTitles)
         {
