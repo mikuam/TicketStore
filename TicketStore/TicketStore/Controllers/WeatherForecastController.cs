@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace TicketStore.Controllers
             _logger = logger;
         }
 
-        // GET: weatherForecast/
+        // GET: weatherForecast?sortByTemperature=true
         [HttpGet]
         public IEnumerable<WeatherForecast> Get([FromQuery]bool sortByTemperature = false)
         {
@@ -46,22 +47,36 @@ namespace TicketStore.Controllers
         // GET: weatherForecast/3
         [Route("{daysForward}")]
         [HttpGet]
-        public WeatherForecast Get(int daysForward)
+        public IActionResult Get(int daysForward)
         {
+            if (daysForward == 0)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+
             var rng = new Random();
-            return new WeatherForecast
+            return new JsonResult(new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(daysForward),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
-            };
+            });
         }
 
         // POST: weatherForecast/
         [HttpPost]
         public IActionResult Post([FromBody] WeatherForecast forecast, [FromHeader] string parentRequestId)
         {
-            Console.WriteLine($"Got a forecast for data: {forecast.Date} with parentRequestId: {parentRequestId}!");
+            try
+            {
+                Console.WriteLine($"Got a forecast for data: {forecast.Date} with parentRequestId: {parentRequestId}!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
             return new AcceptedResult();
         }
 
