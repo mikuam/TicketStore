@@ -1,4 +1,4 @@
-﻿namespace TicketStore.Events
+﻿namespace TicketStore.Tickets
 {
     public enum EventType
     {

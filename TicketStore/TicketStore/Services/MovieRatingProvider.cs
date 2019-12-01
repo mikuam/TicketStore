@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TicketStore.Events
+namespace TicketStore.Services
 {
     public class MovieRatingProvider : IMovieRatingProvider
     {

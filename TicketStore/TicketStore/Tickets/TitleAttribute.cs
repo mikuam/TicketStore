@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TicketStore
+namespace TicketStore.Tickets
 {
     public class TitleAttribute : ValidationAttribute
     {

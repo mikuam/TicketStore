@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketStore.Events
+namespace TicketStore.Tickets
 {
     public class Event
     {

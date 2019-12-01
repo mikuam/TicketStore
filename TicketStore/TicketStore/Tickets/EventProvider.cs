@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TicketStore.Services;
 
-namespace TicketStore.Events
+namespace TicketStore.Tickets
 {
     public class EventProvider : IEventProvider
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace TicketStore
+namespace TicketStore.WeatherForecast
 {
     public class WeatherForecast
     {

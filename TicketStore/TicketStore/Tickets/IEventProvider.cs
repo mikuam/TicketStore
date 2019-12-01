@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TicketStore.Events
+namespace TicketStore.Tickets
 {
     public interface IEventProvider
     {
