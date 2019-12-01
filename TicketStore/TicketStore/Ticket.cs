@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TicketStore
 {
-    public class Ticket
+    public class Ticket : IValidatableObject
     {
+        [Title]
         [MinLength(1)]
         public string MovieTitle { get; set; }
 
@@ -21,5 +23,18 @@ namespace TicketStore
 
         [Phone]
         public string Phone { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Row > 30)
+            {
+                yield return new ValidationResult("Row cannot be greater then 30");
+            }
+
+            if (Seat > 20)
+            {
+                yield return new ValidationResult("Row cannot be greater then 20");
+            }
+        }
     }
 }
