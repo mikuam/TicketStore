@@ -6,24 +6,23 @@ namespace TicketStore.Services
 {
     public class EmailSenderService : IEmailSenderService
     {
-        private readonly IConfiguration _configuration;
-
+        private readonly ServiceConfiguration serviceConfiguration;
         private readonly SmtpClient _client;
 
         public EmailSenderService(IConfiguration configuration)
         {
-            _configuration = configuration;
+            serviceConfiguration = new ServiceConfiguration();
+            configuration.Bind(serviceConfiguration);
 
-            var smtpServerAddress = _configuration.GetValue<string>("Email:smtpServerAddress");
-            var smtpServerPort = _configuration.GetValue<int>("Email:smtpServerPort");
-            _client = new SmtpClient(smtpServerAddress, smtpServerPort);
+            _client = new SmtpClient(serviceConfiguration.Email.SmtpServerAddress, serviceConfiguration.Email.SmtpServerPort);
         }
 
         public async Task SendEmail(string emailAddress, string content)
         {
-            var fromAddress = _configuration.GetValue<string>("Email:senderAddress");
-            var message = new MailMessage(fromAddress, emailAddress);
-            message.Subject = content;
+            var message = new MailMessage(serviceConfiguration.Email.SenderAddress, emailAddress)
+            {
+                Subject = content
+            };
 
             await _client.SendMailAsync(message);
         }
