@@ -23,6 +23,7 @@ namespace TicketStore.Controllers
             _logger = logger;
         }
 
+        // GET: weatherForecast/
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -34,6 +35,28 @@ namespace TicketStore.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        // GET: weatherForecast/3
+        [Route("{daysForward}")]
+        [HttpGet]
+        public WeatherForecast Get(int daysForward)
+        {
+            var rng = new Random();
+            return new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(daysForward),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            };
+        }
+
+        // POST: weatherForecast/
+        [HttpPost]
+        public IActionResult Post([FromBody] WeatherForecast weatherForecast)
+        {
+            Console.WriteLine("Got a POST request!");
+            return new AcceptedResult();
         }
     }
 }
