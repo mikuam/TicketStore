@@ -17,5 +17,10 @@ namespace TicketStore.Services
 
             return await Task.FromResult(new Dictionary<string, decimal> (ratings));
         }
+
+        public Task<decimal> GetMovieRating(string movieTitle)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
