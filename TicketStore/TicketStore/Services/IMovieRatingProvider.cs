@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TicketStore.Services
 {
     public interface IMovieRatingProvider
     {
-        IDictionary<string, decimal> GetMovieRatings(IEnumerable<string> movieTitles);
+        Task<IDictionary<string, decimal>> GetMovieRatings(IEnumerable<string> movieTitles);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TicketStore.Clients;
 using TicketStore.Services;
 using TicketStore.Tickets;
 
@@ -23,7 +24,7 @@ namespace TicketStore
         {
             services.AddControllers();
 
-            services.AddScoped<IMovieRatingProvider, MovieRatingProvider>();
+            services.AddScoped<IMovieRatingProvider, OmdbClient>();
             services.AddScoped<IEventProvider, EventProvider>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
 

@@ -26,11 +26,11 @@ namespace TicketStore.Tickets
         }
 
         [HttpGet]
-        public IActionResult GetAvailableEvents()
+        public async Task<IActionResult> GetAvailableEvents()
         {
             try
             {
-                return new JsonResult(_eventProvider.GetActiveEvents());
+                return new JsonResult(await _eventProvider.GetActiveEvents());
             }
             catch (Exception ex)
             {

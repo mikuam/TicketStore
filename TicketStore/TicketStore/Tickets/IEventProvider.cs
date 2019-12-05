@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TicketStore.Tickets
 {
     public interface IEventProvider
     {
-        IEnumerable<Event> GetActiveEvents();
+        Task<IEnumerable<Event>> GetActiveEvents();
     }
 }

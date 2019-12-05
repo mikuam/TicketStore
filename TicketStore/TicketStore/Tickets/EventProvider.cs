@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TicketStore.Services;
 
 namespace TicketStore.Tickets
@@ -14,16 +15,16 @@ namespace TicketStore.Tickets
             _movieRatingProvider = movieRatingProvider;
         }
 
-        public IEnumerable<Event> GetActiveEvents()
+        public async Task<IEnumerable<Event>> GetActiveEvents()
         {
             var events =  GetAllEvents();
 
-            return ApplyRatings(events);
+            return await ApplyRatings(events);
         }
 
-        private IEnumerable<Event> ApplyRatings(IEnumerable<Event> events)
+        private async Task<IEnumerable<Event>> ApplyRatings(IEnumerable<Event> events)
         {
-            var movieRatings = _movieRatingProvider.GetMovieRatings(
+            var movieRatings = await _movieRatingProvider.GetMovieRatings(
                 events.Where(e => e.Type == EventType.Movie)
                       .Select(m => m.Title));
 
