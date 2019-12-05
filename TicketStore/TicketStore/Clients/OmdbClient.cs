@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace TicketStore.Clients
     public class OmdbClient : IMovieRatingProvider
     {
         private const string ApiKey = "4a6d4e9b";
+        private const string Username = "Mik";
+        private const string Password = "****";
 
         private string OmdbApiUrl = "http://www.omdbapi.com/?apiKey=" + ApiKey + "&t=";
 
@@ -23,6 +27,11 @@ namespace TicketStore.Clients
         {
             _client = client;
             _logger = logger;
+
+            var authToken = Encoding.ASCII.GetBytes($"{Username}:{Password}");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Basic",
+                Convert.ToBase64String(authToken));
         }
 
         public async Task<IDictionary<string, decimal>> GetMovieRatings(IEnumerable<string> movieTitles)
