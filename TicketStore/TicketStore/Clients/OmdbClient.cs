@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -23,20 +24,28 @@ namespace TicketStore.Clients
         {
             var result = new Dictionary<string, decimal>();
 
-            foreach (var movieTitle in movieTitles)
+            var ratings = await Task.WhenAll(movieTitles.Select(title => FetchSingleTitle(title)));
+            foreach (var rating in ratings.Where(r => r != null))
             {
-                var response = await _client.GetAsync(OmdbApiUrl + movieTitle.Replace(" ", "+"));
-                using var responseStream = await response.Content.ReadAsStreamAsync();
-                var omdbRatings = await JsonSerializer.DeserializeAsync<MovieRatingDto>(responseStream);
-                if (omdbRatings != null
-                    && !string.IsNullOrWhiteSpace(omdbRatings.Title)
-                    && omdbRatings.ImdbRating != default)
-                {
-                    result.Add(movieTitle, decimal.Parse(omdbRatings.ImdbRating));
-                }
+                result.Add(rating.Value.Key, rating.Value.Value);
             }
 
             return result;
+        }
+
+        private async Task<KeyValuePair<string, decimal>?> FetchSingleTitle(string movieTitle)
+        {
+            var response = await _client.GetAsync(OmdbApiUrl + movieTitle.Replace(" ", "+"));
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var omdbRatings = await JsonSerializer.DeserializeAsync<MovieRatingDto>(responseStream);
+            if (omdbRatings != null
+                && !string.IsNullOrWhiteSpace(omdbRatings.Title)
+                && omdbRatings.ImdbRating != default)
+            {
+                return new KeyValuePair<string, decimal>(movieTitle, decimal.Parse(omdbRatings.ImdbRating));
+            }
+
+            return null;
         }
     }
 }
