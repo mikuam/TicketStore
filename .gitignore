@@ -199,3 +199,4 @@ $RECYCLE.BIN/
 #####
 
 **/*.json
+/TicketStore/TicketStore/log-file.txt

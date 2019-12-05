@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using TicketStore.Services;
 
 namespace TicketStore.Clients
@@ -14,23 +16,33 @@ namespace TicketStore.Clients
         private string OmdbApiUrl = "http://www.omdbapi.com/?apiKey=" + ApiKey + "&t=";
 
         private HttpClient _client;
+        private readonly ILogger<OmdbClient> _logger;
 
-        public OmdbClient()
+        public OmdbClient(HttpClient client, ILogger<OmdbClient> logger)
         {
-            _client = new HttpClient();
+            _client = client;
+            _logger = logger;
         }
 
         public async Task<IDictionary<string, decimal>> GetMovieRatings(IEnumerable<string> movieTitles)
         {
-            var result = new Dictionary<string, decimal>();
-
-            var ratings = await Task.WhenAll(movieTitles.Select(title => FetchSingleTitle(title)));
-            foreach (var rating in ratings.Where(r => r != null))
+            try
             {
-                result.Add(rating.Value.Key, rating.Value.Value);
-            }
+                var result = new Dictionary<string, decimal>();
 
-            return result;
+                var ratings = await Task.WhenAll(movieTitles.Select(title => FetchSingleTitle(title)));
+                foreach (var rating in ratings.Where(r => r != null))
+                {
+                    result.Add(rating.Value.Key, rating.Value.Value);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Something went wrong when calling OMDB API");
+                return new Dictionary<string, decimal>();
+            }
         }
 
         private async Task<KeyValuePair<string, decimal>?> FetchSingleTitle(string movieTitle)

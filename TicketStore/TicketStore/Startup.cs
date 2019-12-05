@@ -23,8 +23,8 @@ namespace TicketStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpClient<IMovieRatingProvider, OmdbClient>();
 
-            services.AddScoped<IMovieRatingProvider, OmdbClient>();
             services.AddScoped<IEventProvider, EventProvider>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
 
