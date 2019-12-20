@@ -36,7 +36,7 @@ namespace TicketStore.Events
         {
             try
             {
-                return new JsonResult(await _localDbContext.Events.Include(e => e.Tickets).ToListAsync());
+                return new JsonResult(await _localDbContext.Events.AsNoTracking().ToListAsync());
             }
             catch (Exception ex)
             {
@@ -45,17 +45,23 @@ namespace TicketStore.Events
             }
         }
 
-        [Route("GetActive")]
+        [Route("{eventId}")]
         [HttpGet]
-        public async Task<IActionResult> GetActive()
+        public async Task<IActionResult> GetById(int eventId)
         {
             try
             {
-                return new JsonResult(await _eventProvider.GetActiveEvents());
+                var searchedEvent = await _localDbContext.Events.AsNoTracking().Include(e => e.Tickets).FirstOrDefaultAsync(e => e.Id == eventId);
+                if (searchedEvent == null)
+                {
+                    return NotFound();
+                }
+
+                return new JsonResult(searchedEvent);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Something went wrong when getting events in {nameof(Get)}");
+                _logger.LogError(ex, $"Something went wrong when getting events in {nameof(GetById)}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -81,6 +87,39 @@ namespace TicketStore.Events
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong when adding an event");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Route("{eventId}")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int eventId)
+        {
+            var searchedEvent = await _localDbContext.Events.Include(e => e.Tickets).FirstOrDefaultAsync(e => e.Id == eventId);
+            if (searchedEvent == null)
+            {
+                return NotFound();
+            }
+
+            var tickets = _localDbContext.Tickets.Where(t => t.EventId == searchedEvent.Id);
+
+            _localDbContext.Tickets.RemoveRange(tickets);
+            _localDbContext.Events.Remove(searchedEvent);
+            _localDbContext.Instance.SaveChanges();
+            return Ok();
+        }
+
+        [Route("GetActive")]
+        [HttpGet]
+        public async Task<IActionResult> GetActive()
+        {
+            try
+            {
+                return new JsonResult(await _eventProvider.GetActiveEvents());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong when getting events in {nameof(Get)}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
