@@ -45,7 +45,7 @@ namespace TicketStore
             services.AddSingleton(serviceConfiguration);
 
             // Entity Framework
-            services.AddDbContext<ILocalDBContext, LocalDBContext>(options =>
+            services.AddDbContext<ILocalDBContext, aspnetcoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalDB")));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
