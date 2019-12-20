@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Polly;
 using TicketStore.Clients;
 using TicketStore.Data;
+using TicketStore.Data.Repositories;
 using TicketStore.Events;
 using TicketStore.Services;
 
@@ -38,6 +39,7 @@ namespace TicketStore
 
             services.AddScoped<IEventProvider, EventProvider>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
+            services.AddSingleton<IEventRepository, EventRepository>();
 
             // configuration
             var serviceConfiguration = new ServiceConfiguration();

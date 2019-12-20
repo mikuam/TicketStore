@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Http;
 using TicketStore.Services;
 using System.Threading.Tasks;
 using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TicketStore.Data;
+using TicketStore.Data.Repositories;
 
 namespace TicketStore.Events
 {
@@ -15,19 +14,19 @@ namespace TicketStore.Events
     public class EventsController : ControllerBase
     {
         private readonly IEventProvider _eventProvider;
+        private readonly IEventRepository _eventRepository;
         private readonly IEmailSenderService _emailSenderService;
-        private readonly ILocalDBContext _localDbContext;
         private readonly ILogger<EventsController> _logger;
 
         public EventsController(
             IEmailSenderService emailSenderService,
             IEventProvider eventProvider,
-            ILocalDBContext localDbContext,
+            IEventRepository eventRepository,
             ILogger<EventsController> logger)
         {
             _eventProvider = eventProvider;
+            _eventRepository = eventRepository;
             _emailSenderService = emailSenderService;
-            _localDbContext = localDbContext;
             _logger = logger;
         }
 
@@ -36,7 +35,7 @@ namespace TicketStore.Events
         {
             try
             {
-                return new JsonResult(await _localDbContext.Events.AsNoTracking().ToListAsync());
+                return new JsonResult(await _eventRepository.GetAll());
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace TicketStore.Events
         {
             try
             {
-                var searchedEvent = await _localDbContext.Events.AsNoTracking().Include(e => e.Tickets).FirstOrDefaultAsync(e => e.Id == eventId);
+                var searchedEvent = await _eventRepository.GetWithTickets(eventId);
                 if (searchedEvent == null)
                 {
                     return NotFound();
@@ -71,7 +70,7 @@ namespace TicketStore.Events
         {
             try
             {
-                await _localDbContext.Events.AddAsync(new Event
+                await _eventRepository.AddEvent(new Event
                 {
                     Title = newEvent.Title,
                     Date = newEvent.Date,
@@ -79,8 +78,6 @@ namespace TicketStore.Events
                     Rows = newEvent.Rows,
                     Seats = newEvent.Seats
                 });
-
-                await _localDbContext.Instance.SaveChangesAsync();
 
                 return Accepted();
             }
@@ -95,17 +92,7 @@ namespace TicketStore.Events
         [HttpDelete]
         public async Task<IActionResult> Delete(int eventId)
         {
-            var searchedEvent = await _localDbContext.Events.Include(e => e.Tickets).FirstOrDefaultAsync(e => e.Id == eventId);
-            if (searchedEvent == null)
-            {
-                return NotFound();
-            }
-
-            var tickets = _localDbContext.Tickets.Where(t => t.EventId == searchedEvent.Id);
-
-            _localDbContext.Tickets.RemoveRange(tickets);
-            _localDbContext.Events.Remove(searchedEvent);
-            _localDbContext.Instance.SaveChanges();
+            await _eventRepository.RemoveEvent(eventId);
             return Ok();
         }
 
@@ -130,7 +117,7 @@ namespace TicketStore.Events
         {
             try
             {
-                await _localDbContext.Tickets.AddAsync(new Ticket()
+                await _eventRepository.AddTicket(new Ticket()
                 {
                     EventId = ticket.EventId,
                     Row = ticket.Row,
@@ -138,8 +125,6 @@ namespace TicketStore.Events
                     Email = ticket.Email,
                     Phone = ticket.Phone
                 });
-
-                await _localDbContext.Instance.SaveChangesAsync();
 
                 // await _emailSenderService.SendEmail(ticket.Email, $"Bought ticket for event with Id: {ticket.EventId}!");
                 return StatusCode(StatusCodes.Status201Created);
