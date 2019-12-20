@@ -11,6 +11,7 @@ namespace TicketStore.Data
         public EventType Type { get; set; }
         public int Rows { get; set; }
         public int Seats { get; set; }
+        public string Organizer { get; set; }
 
         public List<Ticket> Tickets { get; set; }
     }
