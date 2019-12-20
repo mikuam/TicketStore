@@ -1,0 +1,100 @@
+2019-12-20 20:33:14,523 [1] WARN  Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to bind to http://localhost:59323 on the IPv4 loopback interface: 'An attempt was made to access a socket in a way forbidden by its access permissions.'.
+2019-12-20 20:33:14,536 [1] WARN  Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to bind to http://localhost:59323 on the IPv6 loopback interface: 'An attempt was made to access a socket in a way forbidden by its access permissions.'.
+2019-12-20 20:33:14,590 [1] FATAL Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to start Kestrel.
+System.IO.IOException: Failed to bind to address http://localhost:59323.
+ ---> System.AggregateException: One or more errors occurred. (An attempt was made to access a socket in a way forbidden by its access permissions.) (An attempt was made to access a socket in a way forbidden by its access permissions.)
+ ---> System.Net.Sockets.SocketException (10013): An attempt was made to access a socket in a way forbidden by its access permissions.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   --- End of inner exception stack trace ---
+ ---> (Inner Exception #1) System.Net.Sockets.SocketException (10013): An attempt was made to access a socket in a way forbidden by its access permissions.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)<---
+
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+2019-12-20 21:00:58,090 [1] WARN  Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to bind to http://localhost:59323 on the IPv4 loopback interface: 'An attempt was made to access a socket in a way forbidden by its access permissions.'.
+2019-12-20 21:00:58,102 [1] WARN  Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to bind to http://localhost:59323 on the IPv6 loopback interface: 'An attempt was made to access a socket in a way forbidden by its access permissions.'.
+2019-12-20 21:00:58,156 [1] FATAL Microsoft.AspNetCore.Server.Kestrel [(null)] - Unable to start Kestrel.
+System.IO.IOException: Failed to bind to address http://localhost:59323.
+ ---> System.AggregateException: One or more errors occurred. (An attempt was made to access a socket in a way forbidden by its access permissions.) (An attempt was made to access a socket in a way forbidden by its access permissions.)
+ ---> System.Net.Sockets.SocketException (10013): An attempt was made to access a socket in a way forbidden by its access permissions.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   --- End of inner exception stack trace ---
+ ---> (Inner Exception #1) System.Net.Sockets.SocketException (10013): An attempt was made to access a socket in a way forbidden by its access permissions.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)<---
+
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+2019-12-20 21:06:45,662 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Application started. Press Ctrl+C to shut down.
+2019-12-20 21:06:45,693 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Hosting environment: Development
+2019-12-20 21:06:45,695 [1] INFO  Microsoft.Hosting.Lifetime [(null)] - Content root path: C:\Mik\TicketStore\TicketStore
+2019-12-20 21:06:45,721 [5] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/  
+2019-12-20 21:06:45,795 [4] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/index.html  
+2019-12-20 21:06:45,797 [5] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 69.8386ms 301 
+2019-12-20 21:06:45,969 [4] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 180.13060000000002ms 200 text/html;charset=utf-8
+2019-12-20 21:06:45,990 [12] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/swagger-ui.css  
+2019-12-20 21:06:45,999 [4] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/swagger-ui-standalone-preset.js  
+2019-12-20 21:06:46,001 [5] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/swagger-ui-bundle.js  
+2019-12-20 21:06:46,102 [21] INFO  Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [(null)] - Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2019-12-20 21:06:46,102 [25] INFO  Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [(null)] - Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-12-20 21:06:46,103 [22] INFO  Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [(null)] - Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2019-12-20 21:06:46,106 [21] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 113.32950000000001ms 200 application/javascript
+2019-12-20 21:06:46,110 [22] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 113.3832ms 200 application/javascript
+2019-12-20 21:06:46,113 [25] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 116.128ms 200 text/css
+2019-12-20 21:06:46,415 [22] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/swagger/v1/swagger.json  
+2019-12-20 21:06:46,461 [17] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/favicon-32x32.png  
+2019-12-20 21:06:46,465 [17] INFO  Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [(null)] - Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2019-12-20 21:06:46,467 [17] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 6.0955ms 200 image/png
+2019-12-20 21:06:46,544 [22] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 129.7165ms 200 application/json;charset=utf-8
+2019-12-20 21:06:49,852 [19] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request starting HTTP/1.1 GET http://localhost:59322/Events  
+2019-12-20 21:06:49,904 [19] INFO  Microsoft.AspNetCore.Routing.EndpointMiddleware [(null)] - Executing endpoint 'TicketStore.Events.EventsController.Get (TicketStore)'
+2019-12-20 21:06:49,959 [19] INFO  Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker [(null)] - Route matched with {action = "Get", controller = "Events"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Get() on controller TicketStore.Events.EventsController (TicketStore).
+2019-12-20 21:06:50,526 [19] INFO  Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker [(null)] - Executing action method TicketStore.Events.EventsController.Get (TicketStore) - Validation state: Valid
+2019-12-20 21:06:56,341 [19] INFO  Microsoft.EntityFrameworkCore.Infrastructure [(null)] - Entity Framework Core 3.1.0 initialized 'LocalDBContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-12-20 21:06:57,299 [4] INFO  Microsoft.EntityFrameworkCore.Database.Command [(null)] - Executed DbCommand (101ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [e].[Id], [e].[Date], [e].[Rows], [e].[Seats], [e].[Title], [e].[Type], [t].[Id], [t].[Email], [t].[EventId], [t].[Phone], [t].[Row], [t].[Seat]
+FROM [Events] AS [e]
+LEFT JOIN [Tickets] AS [t] ON [e].[Id] = [t].[EventId]
+ORDER BY [e].[Id], [t].[Id]
+2019-12-20 21:06:57,418 [4] INFO  Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker [(null)] - Executed action method TicketStore.Events.EventsController.Get (TicketStore), returned result Microsoft.AspNetCore.Mvc.JsonResult in 6885.3919000000005ms.
+2019-12-20 21:06:57,428 [4] INFO  Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor [(null)] - Executing JsonResult, writing value of type 'System.Collections.Generic.List`1[[TicketStore.Data.Event, TicketStore.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-20 21:06:57,456 [4] INFO  Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker [(null)] - Executed action TicketStore.Events.EventsController.Get (TicketStore) in 7492.2158ms
+2019-12-20 21:06:57,459 [4] INFO  Microsoft.AspNetCore.Routing.EndpointMiddleware [(null)] - Executed endpoint 'TicketStore.Events.EventsController.Get (TicketStore)'
+2019-12-20 21:06:57,463 [4] INFO  Microsoft.AspNetCore.Hosting.Diagnostics [(null)] - Request finished in 7613.2762ms 200 application/json; charset=utf-8

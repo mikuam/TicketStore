@@ -1,14 +1,16 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Polly;
 using TicketStore.Clients;
+using TicketStore.Data;
+using TicketStore.Events;
 using TicketStore.Services;
-using TicketStore.Tickets;
 
 namespace TicketStore
 {
@@ -41,6 +43,10 @@ namespace TicketStore
             var serviceConfiguration = new ServiceConfiguration();
             Configuration.Bind(serviceConfiguration);
             services.AddSingleton(serviceConfiguration);
+
+            // Entity Framework
+            services.AddDbContext<ILocalDBContext, LocalDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalDB")));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

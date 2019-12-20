@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TicketStore.Tickets
+namespace TicketStore.Events
 {
-    public class Ticket : IValidatableObject
+    public class TicketToBuy : IValidatableObject
     {
-        [Title]
-        [MinLength(1)]
-        public string MovieTitle { get; set; }
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int EventId { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]
@@ -26,14 +26,14 @@ namespace TicketStore.Tickets
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Row > 30)
+            if (Row > 1000)
             {
-                yield return new ValidationResult("Row cannot be greater then 30");
+                yield return new ValidationResult("Row cannot be greater then 1000");
             }
 
-            if (Seat > 20)
+            if (Seat > 1000)
             {
-                yield return new ValidationResult("Row cannot be greater then 20");
+                yield return new ValidationResult("Row cannot be greater then 1000");
             }
         }
     }

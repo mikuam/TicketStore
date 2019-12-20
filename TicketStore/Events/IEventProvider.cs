@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TicketStore.Tickets
+namespace TicketStore.Events
 {
     public interface IEventProvider
     {
-        Task<IEnumerable<Event>> GetActiveEvents();
+        Task<IEnumerable<EventWithRating>> GetActiveEvents();
     }
 }
