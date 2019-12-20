@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace TicketStore.Data
 {
@@ -43,5 +45,18 @@ namespace TicketStore.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                var connectionString = configuration.GetConnectionString("LocalDB");
+                optionsBuilder.UseSqlServer(connectionString);
+            }
+        }
     }
 }
