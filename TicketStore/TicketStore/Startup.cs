@@ -1,9 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Polly;
 using TicketStore.Clients;
 using TicketStore.Services;
 using TicketStore.Tickets;
@@ -23,7 +25,14 @@ namespace TicketStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHttpClient<IMovieRatingProvider, OmdbClient>();
+            services.AddHttpClient<IMovieRatingProvider, OmdbClient>()
+                .AddTransientHttpErrorPolicy(
+                    p => p.WaitAndRetryAsync(new[]
+                    {
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(5),
+                        TimeSpan.FromSeconds(10)
+                    }));
 
             services.AddScoped<IEventProvider, EventProvider>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
