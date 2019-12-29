@@ -27,7 +27,12 @@ namespace TicketStore.Events
 
         private async Task<IEnumerable<EventWithRating>> ApplyRatings(IEnumerable<Event> events)
         {
-            var eventsToReturn = events.Select(e => new EventWithRating(e));
+            if (events == null || !events.Any())
+            {
+                return Enumerable.Empty<EventWithRating>();
+            }
+
+            var eventsToReturn = events.Select(e => new EventWithRating(e)).ToList();
 
             var movieRatings = await _movieRatingProvider.GetMovieRatings(
                 eventsToReturn.Where(e => e.Type == EventType.Movie)
