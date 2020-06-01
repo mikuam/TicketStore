@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -54,7 +55,8 @@ namespace TicketStore.Clients
                 && !string.IsNullOrWhiteSpace(omdbRatings.Title)
                 && omdbRatings.ImdbRating != default)
             {
-                return new KeyValuePair<string, decimal>(movieTitle, decimal.Parse(omdbRatings.ImdbRating));
+                decimal.TryParse(omdbRatings.ImdbRating, NumberStyles.Any, CultureInfo.InvariantCulture, out var rating);
+                return new KeyValuePair<string, decimal>(movieTitle, rating);
             }
 
             return null;
