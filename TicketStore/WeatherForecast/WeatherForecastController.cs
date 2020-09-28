@@ -79,6 +79,25 @@ namespace TicketStore.WeatherForecast
             return new AcceptedResult();
         }
 
+        // POST: weatherForecast/multipleHeaders
+        [HttpPost("multipleHeaders")]
+        public IActionResult Post([FromHeader] ForecastHeaders forecastHeaders)
+        {
+            try
+            {
+                Console.WriteLine($"Got a forecast for city: {forecastHeaders.City}," +
+                                    $"temperature: {forecastHeaders.TemperatureC} and" +
+                                    $"description: {forecastHeaders.Description}!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return new AcceptedResult();
+        }
+
         // POST: weatherForecast/sendfile
         [Route("sendfile")]
         [HttpPost]
